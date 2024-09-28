@@ -85,6 +85,9 @@ class TitleState extends MusicBeatState
 	var customMenuScroll: Array<Array<String>>;
 	override public function create():Void
 	{
+		#if android
+                FlxG.android.preventDefaultKeys = [BACK];
+                #end
 
 		#if windows
 		DiscordClient.initialize();
@@ -297,6 +300,16 @@ class TitleState extends MusicBeatState
 
 		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER;
 
+		#if mobile
+		for (touch in FlxG.touches.list)
+		{
+			if (touch.justPressed)
+			{
+				pressedEnter = true;
+			}
+		}
+		#end
+
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
 		if (gamepad != null)
@@ -336,13 +349,6 @@ class TitleState extends MusicBeatState
 		{
 			skipIntro();
 		}
-
-		for (touch in FlxG.touches.list)
-	                if (touch.justPressed)
-		                justTouched = true;
-
-                if (justTouched)
-	                skipintro();
 
 		super.update(elapsed);
 	}
