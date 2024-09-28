@@ -13,6 +13,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 import lime.app.Application;
+import ui.FlxVirtualPad;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.FlxObject;
@@ -52,6 +53,7 @@ class MainMenuState extends MusicBeatState
 	var scrollSound:String;
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
+	var _pad:FlxVirtualPad;
 	public static var version:String = "";
 	override function create()
 	{
@@ -167,6 +169,10 @@ class MainMenuState extends MusicBeatState
 
 		changeItem();
 
+		_pad = new FlxVirtualPad(UP_DOWN, A_B);
+		_pad.alpha = 0.75;
+		this.add(_pad);
+
 		super.create();
 	}
 
@@ -181,26 +187,31 @@ class MainMenuState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
-			if (controls.UP_MENU)
+			var UP_P = _pad.buttonUp.justPressed;
+			var DOWN_P = _pad.buttonDown.justPressed;
+			var BACK = _pad.buttonB.justPressed;
+			var ACCEPT = _pad.buttonA.justPressed;
+			
+			if (controls.UP_MENU || UP_P)
 			{
 				FlxG.sound.play('assets/sounds/custom_menu_sounds/'
 				+ menuSoundJson.customMenuScroll +'/scrollMenu' + TitleState.soundExt);
 				changeItem(-1);
 			}
 
-			if (controls.DOWN_MENU)
+			if (controls.DOWN_MENU || DOWN_P)
 			{
 				FlxG.sound.play('assets/sounds/custom_menu_sounds/'
 				+ menuSoundJson.customMenuScroll +'/scrollMenu' + TitleState.soundExt);
 				changeItem(1);
 			}
 
-			if (controls.BACK)
+			if (controls.BACK || BACK || FlxG.android.justReleased.BACK)
 			{
 				LoadingState.loadAndSwitchState(new TitleState());
 			}
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT || ACCEPT)
 			{
 				if (optionShit[curSelected] == 'donate')
 				{
