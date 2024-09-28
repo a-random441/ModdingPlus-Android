@@ -11,6 +11,7 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import ui.FlxVirtualPad;
 
 class OptionsMenu extends MusicBeatState
 {
@@ -20,6 +21,13 @@ class OptionsMenu extends MusicBeatState
 	var controlsStrings:Array<String> = [];
 
 	private var grpControls:FlxTypedGroup<Alphabet>;
+
+	var _pad:FlxVirtualPad;
+
+	var UP_P:Bool;
+	var DOWN_P:Bool;
+	var BACK:Bool;
+	var ACCEPT:Bool;
 
 	override function create()
 	{
@@ -47,6 +55,10 @@ class OptionsMenu extends MusicBeatState
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 		}
 
+		_pad = new FlxVirtualPad(FULL, A_B);
+		_pad.alpha = 0.75;
+		this.add(_pad);
+
 		super.create();
 	}
 
@@ -54,7 +66,19 @@ class OptionsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if (controls.ACCEPT)
+		UP_P = _pad.buttonUp.justReleased;
+		DOWN_P = _pad.buttonDown.justReleased;
+		LEFT = _pad.buttonLeft.pressed;
+
+		#if android
+		BACK = _pad.buttonB.justPressed || FlxG.android.justReleased.BACK;
+		#else
+		BACK = _pad.buttonB.justPressed;
+		#end
+			
+		ACCEPT = _pad.buttonA.justReleased;
+
+		if (controls.ACCEPT || ACCEPT)
 		{
 			changeBinding();
 		}
@@ -63,11 +87,11 @@ class OptionsMenu extends MusicBeatState
 			waitingInput();
 		else
 		{
-			if (controls.BACK)
+			if (controls.BACK || BACK)
 				LoadingState.loadAndSwitchState(new MainMenuState());
-			if (controls.UP_MENU)
+			if (controls.UP_MENU || UP_P)
 				changeSelection(-1);
-			if (controls.DOWN_MENU)
+			if (controls.DOWN_MENU || DOWN_P)
 				changeSelection(1);
 		}
 	}
@@ -76,7 +100,7 @@ class OptionsMenu extends MusicBeatState
 	{
 		if (FlxG.keys.getIsDown().length > 0)
 		{
-			PlayerSettings.player1.controls.replaceBinding(Control.LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
+			PlayerSettings.player1.controls.replaceBinding(Control.LEFT || LEFT, Keys, FlxG.keys.getIsDown()[0].ID, null);
 		}
 		// PlayerSettings.player1.controls.replaceBinding(Control)
 	}
