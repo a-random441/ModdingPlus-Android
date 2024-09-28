@@ -88,6 +88,7 @@ class StoryMenuState extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 	var _pad:FlxVirtualPad;
+	var BACK:Bool;
 	var oldMode:Bool = false;
 	var yellowBG:FlxSprite;
 	override function create()
@@ -507,7 +508,7 @@ class StoryMenuState extends MusicBeatState
 			}
 		}
 
-		if (BACK && !movedBack && !selectedWeek)
+		if (controls.BACK || BACK && !movedBack && !selectedWeek)
 		{
 			FlxG.sound.play('assets/sounds/cancelMenu' + TitleState.soundExt);
 			movedBack = true;
