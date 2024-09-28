@@ -469,11 +469,8 @@ class StoryMenuState extends MusicBeatState
 		        var ACCEPT = _pad.buttonA.justPressed;
 		        var BACK = _pad.buttonB.justPressed;
 
-		        #if android
-			    var BACK = _pad.buttonB.justPressed || FlxG.android.justReleased.BACK;
-		        #else
-			    var BACK = _pad.buttonB.justPressed;
-		        #end
+			var BACK = _pad.buttonB.justPressed || FlxG.android.justReleased.BACK;
+			
 			if (!selectedWeek)
 			{
 				if (controls.UP_MENU || UP_P)
