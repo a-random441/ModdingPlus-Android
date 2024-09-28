@@ -19,7 +19,7 @@ import flixel.FlxObject;
 import Sys;
 import sys.FileSystem;
 #end
-#if cpp
+#if desktop
 import Discord.DiscordClient;
 #end
 import DifficultyIcons;
