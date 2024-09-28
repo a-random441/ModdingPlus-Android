@@ -57,6 +57,7 @@ class TitleState extends MusicBeatState
 	var wackyEndBeat:Int = 0;
 	var wackyImage:FlxSprite;
 	var coolDudes:Array<String> = [];
+	var justTouched:Bool = false;
 	
 	var name_1:Array<String> = [];
 	var name_2:Array<String> = [];
@@ -335,6 +336,13 @@ class TitleState extends MusicBeatState
 		{
 			skipIntro();
 		}
+
+		for (touch in FlxG.touches.list)
+	                if (touch.justPressed)
+		                justTouched = true;
+
+                if (justTouched)
+	                skipintro();
 
 		super.update(elapsed);
 	}
