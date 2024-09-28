@@ -13,6 +13,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
+import ui.FlxVirtualPad;
 import haxe.Json;
 import lime.utils.Assets;
 import lime.system.System;
@@ -86,6 +87,7 @@ class StoryMenuState extends MusicBeatState
 	var grpDifficulty:DifficultyIcons;
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
+	var _pad:FlxVirtualPad;
 	var oldMode:Bool = false;
 	var yellowBG:FlxSprite;
 	override function create()
@@ -428,6 +430,10 @@ class StoryMenuState extends MusicBeatState
 
 		trace("Line 165");
 
+		_pad = new FlxVirtualPad(FULL, A_B);
+          	_pad.alpha = 0.75;
+    	        this.add(_pad);
+
 		super.create();
 	}
 
@@ -451,41 +457,57 @@ class StoryMenuState extends MusicBeatState
 
 		if (!movedBack)
 		{
+			var UP_P = _pad.buttonUp.justPressed;
+		        var RIGHT_P = _pad.buttonRight.justPressed;
+		        var DOWN_P = _pad.buttonDown.justPressed;
+		        var LEFT_P = _pad.buttonLeft.justPressed;
+		
+		        var RIGHT = _pad.buttonRight.pressed;
+		        var LEFT = _pad.buttonLeft.pressed;
+
+		        var ACCEPT = _pad.buttonA.justPressed;
+		        var BACK = _pad.buttonB.justPressed;
+
+		        #if android
+			var BACK = _pad.buttonB.justPressed || FlxG.android.justReleased.BACK;
+		        #else
+			var BACK = _pad.buttonB.justPressed;
+		        #end
 			if (!selectedWeek)
 			{
-				if (controls.UP_MENU)
+				if (controls.UP_MENU || UP_P)
 				{
 					changeWeek(-1);
 				}
 
-				if (controls.DOWN_MENU)
+				if (controls.DOWN_MENU || DOWN_P)
 				{
 					changeWeek(1);
 				}
 
-				if (controls.RIGHT_MENU_H)
+				if (controls.RIGHT_MENU_H || RIGHT)
 					rightArrow.animation.play('press')
 				else
 					rightArrow.animation.play('idle');
 
-				if (controls.LEFT_MENU_H)
+				if (controls.LEFT_MENU_H || LEFT)
 					leftArrow.animation.play('press');
 				else
 					leftArrow.animation.play('idle');
 
-				if (controls.RIGHT_MENU)
+				if (controls.RIGHT_MENU || RIGHT_P)
 					changeDifficulty(1);
-				if (controls.LEFT_MENU)
+				if (controls.LEFT_MENU || LEFT_P)
 					changeDifficulty(-1);
 			}
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT || ACCEPT)
 			{
 				selectWeek();
 			}
 		}
 
-		if (controls.BACK && !movedBack && !selectedWeek)
+		if (controls.BACK || BACK && !movedBack && !selectedWeek)
 		{
 			FlxG.sound.play('assets/sounds/cancelMenu' + TitleState.soundExt);
 			movedBack = true;
