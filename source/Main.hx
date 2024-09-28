@@ -29,20 +29,6 @@ class Main extends Sprite
 		#if sys
 		cwd = SUtil.getStorageDirectory();
 		#end
-	        private function setupGame():Void
-	        {
-		        var stageWidth:Int = Lib.current.stage.stageWidth;
-		        var stageHeight:Int = Lib.current.stage.stageHeight;
-
-		        if (zoom == -1)
-		        {
-			        var ratioX:Float = stageWidth / gameWidth;
-			        var ratioY:Float = stageHeight / gameHeight;
-			        zoom = Math.min(ratioX, ratioY);
-			        gameWidth = Math.ceil(stageWidth / zoom);
-			        gameHeight = Math.ceil(stageHeight / zoom);
-		        }
-		}
 		SUtil.checkFiles();
 		addChild(new FlxGame(0, 0, TitleState, 1, gameWidth, gameHeight, zoom, OptionsHandler.options.fpsCap, OptionsHandler.options.fpsCap, true));
 		//#if !mobile
@@ -50,4 +36,17 @@ class Main extends Sprite
 		addChild(new MemoryCounter(10, 3, 0xFFFFFF));
 		//#end
 	}
+        private function setupGame():Void
+	{
+		var stageWidth:Int = Lib.current.stage.stageWidth;
+		var stageHeight:Int = Lib.current.stage.stageHeight;
+
+		if (zoom == -1)
+		{
+			var ratioX:Float = stageWidth / gameWidth;
+			var ratioY:Float = stageHeight / gameHeight;
+			zoom = Math.min(ratioX, ratioY);
+			gameWidth = Math.ceil(stageWidth / zoom);
+			gameHeight = Math.ceil(stageHeight / zoom);
+		}
 }
