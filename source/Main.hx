@@ -3,6 +3,7 @@ package;
 import flixel.FlxGame;
 import openfl.display.FPS;
 import openfl.display.Sprite;
+import openfl.Lib;
 #if typebuild
 import plugins.ExamplePlugin;
 import plugins.ExamplePlugin.ExampleCharPlugin;
@@ -17,20 +18,6 @@ class Main extends Sprite
 	public static var cwd:String;
 	#end
 	
-	private function setupGame():Void
-	{
-		var stageWidth:Int = Lib.current.stage.stageWidth;
-		var stageHeight:Int = Lib.current.stage.stageHeight;
-
-		if (zoom == -1)
-		{
-			var ratioX:Float = stageWidth / gameWidth;
-			var ratioY:Float = stageHeight / gameHeight;
-			zoom = Math.min(ratioX, ratioY);
-			gameWidth = Math.ceil(stageWidth / zoom);
-			gameHeight = Math.ceil(stageHeight / zoom);
-		}
-	}
 	public function new()
 	{
 		#if typebuild
@@ -44,6 +31,16 @@ class Main extends Sprite
 		#if sys
 		cwd = SUtil.getStorageDirectory();
 		#end
+		var stageWidth:Int = Lib.current.stage.stageWidth;
+		var stageHeight:Int = Lib.current.stage.stageHeight;
+		if (zoom == -1)
+		{
+			var ratioX:Float = stageWidth / gameWidth;
+			var ratioY:Float = stageHeight / gameHeight;
+			zoom = Math.min(ratioX, ratioY);
+			gameWidth = Math.ceil(stageWidth / zoom);
+			gameHeight = Math.ceil(stageHeight / zoom);
+		}
 		SUtil.checkFiles();
 		addChild(new FlxGame(0, 0, TitleState, 1, gameWidth, gameHeight, zoom, OptionsHandler.options.fpsCap, OptionsHandler.options.fpsCap, true));
 		//#if !mobile
