@@ -9,6 +9,7 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import ui.FlxVirtualPad;
 #if sys
 import sys.io.File;
 #end
@@ -34,6 +35,7 @@ typedef TModifier = {
 	var internName:String;
 	
 }
+
 class ModifierState extends MusicBeatState
 {
 
@@ -320,6 +322,7 @@ class ModifierState extends MusicBeatState
 	public static var isStoryMode:Bool = false;
 	public static var scoreMultiplier:Float = 1;
 	var description:FlxText;
+	var _pad:FlxVirtualPad;
 	public static var namedModifiers:Dynamic = {};
 	public static function init() {
 		for (modifier in 0...modifiers.length)
@@ -372,30 +375,39 @@ class ModifierState extends MusicBeatState
 		calculateMultiplier();
 		multiTxt.text = "Multiplier: "+scoreMultiplier;
 		changeSelection(0);
+		_pad = new FlxVirtualPad(FULL, A_B);
+		_pad.alpha = 0.75;
+		this.add(_pad);
 		super.create();
 	}
 	override function update(elapsed:Float) {
 		super.update(elapsed);
-		if (controls.BACK) {
+		var UP_P = _pad.buttonUp.justPressed;
+		var DOWN_P = _pad.buttonDown.justPressed;
+		var LEFT_P = _pad.buttonLeft.justPressed;
+		var RIGHT_P = _pad.buttonRight.justPressed;
+		var BACK = _pad.buttonB.justPressed;
+		var ACCEPT = _pad.buttonA.justPressed;
+		if (controls.BACK || BACK) {
 			if (isStoryMode)
 				LoadingState.loadAndSwitchState(new StoryMenuState());
 			else
 				LoadingState.loadAndSwitchState(new FreeplayState());
 		}
-		if (controls.UP_MENU)
+		if (controls.UP_MENU || UP_P)
 		{
 			changeSelection(-1);
 		}
-		if (controls.DOWN_MENU)
+		if (controls.DOWN_MENU || DOWN_P)
 		{
 			changeSelection(1);
 		}
-		if (controls.RIGHT_MENU) {
+		if (controls.RIGHT_MENU || RIGHT_P) {
 			changeAmount(true);
-		}  else if (controls.LEFT_MENU) {
+		}  else if (controls.LEFT_MENU || LEFT_P) {
 			changeAmount(false);
 		}
-		if (controls.ACCEPT)
+		if (controls.ACCEPT || ACCEPT)
 			toggleSelection();
 	}
 	function changeAmount(increase:Bool=false) {
