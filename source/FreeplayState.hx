@@ -15,6 +15,7 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import ui.FlxVirtualPad;
 import DifficultyIcons;
 import lime.system.System;
 #if sys
@@ -55,6 +56,7 @@ class FreeplayState extends MusicBeatState
 	var categoryBG:Array<String> = [];
 	var categoriesNames:Array<String> = [];
 	private var iconArray:Array<HealthIcon> = [];
+	var _pad:FlxVirtualPad;
 	var isPixelIcon:Array<Bool> = [];
 	var usingCategoryScreen:Bool = false;
 	var nightcoreMode:Bool = false;
@@ -269,6 +271,10 @@ class FreeplayState extends MusicBeatState
 
 			trace(md);
 		 */
+
+		_pad = new FlxVirtualPad(FULL, A_B);
+		_pad.alpha = 0.65;
+		this.add(_pad);
 		
 		super.create();
 	}
@@ -290,9 +296,20 @@ class FreeplayState extends MusicBeatState
 			scoreText.text = "PERSONAL BEST:" + lerpScore + ", " + lerpAccuracy + "%";
 		else
 			scoreText.text = "Sound Test";
-		var upP = controls.UP_MENU;
+		/*var upP = controls.UP_MENU;
 		var downP = controls.DOWN_MENU;
 		var accepted = controls.ACCEPT;
+                */
+		var upP = _pad.buttonUp.justPressed || controls.UP_MENU;
+		var downP = _pad.buttonDown.justPressed || controls.DOWN_MENU;
+		var LEFT_P = _pad.buttonLeft.justPressed;
+		var RIGHT_P = _pad.buttonRight.justPressed;
+		var accepted = _pad.buttonA.justPressed || controls.ACCEPT;
+		#if android
+			var BACK = _pad.buttonB.justPressed || FlxG.android.justReleased.BACK;
+		#else
+			var BACK = _pad.buttonB.justPressed;
+		#end
 		#if debug
 		if (FlxG.keys.justPressed.F5) {
 			Highscore.saveScore('Tutorial', 0, 1, 0, Sick);
@@ -309,16 +326,16 @@ class FreeplayState extends MusicBeatState
 		{
 			changeSelection(1);
 		}
-		if (controls.LEFT_MENU)
+		if (controls.LEFT_MENU || LEFT_P)
 			changeDiff(-1);
-		if (controls.RIGHT_MENU)
+		if (controls.RIGHT_MENU || RIGHT_P)
 			changeDiff(1);
 		
 		if (controls.LEFT_TAB)
 			infoPanel.changeDisplay(-1);
 		else if (controls.RIGHT_TAB)
 			infoPanel.changeDisplay(1);
-		if (controls.BACK)
+		if (controls.BACK || BACK)
 		{
 			// main menu or else we are cursed
 			FlxG.autoPause = true;
