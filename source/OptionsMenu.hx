@@ -12,6 +12,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 import ui.FlxVirtualPad;
+import options.CustomControlsState;
 
 class OptionsMenu extends MusicBeatState
 {
@@ -28,6 +29,7 @@ class OptionsMenu extends MusicBeatState
 	var DOWN_P:Bool;
 	var BACK:Bool;
 	var ACCEPT:Bool;
+	var CONTROLS:Bool;
 
 	override function create()
 	{
@@ -55,7 +57,7 @@ class OptionsMenu extends MusicBeatState
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 		}
 
-		_pad = new FlxVirtualPad(FULL, A_B);
+		_pad = new FlxVirtualPad(FULL, A_B_C);
 		_pad.alpha = 0.75;
 		this.add(_pad);
 
@@ -66,8 +68,8 @@ class OptionsMenu extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		UP_P = _pad.buttonUp.justReleased;
-		DOWN_P = _pad.buttonDown.justReleased;
+		UP_P = _pad.buttonUp.justPressed;
+		DOWN_P = _pad.buttonDown.justPressed;
 		LEFT = _pad.buttonLeft.pressed;
 
 		#if android
@@ -77,6 +79,7 @@ class OptionsMenu extends MusicBeatState
 		#end
 			
 		ACCEPT = _pad.buttonA.justReleased;
+		CONTROLS = _pad.buttonC.justPressed;
 
 		if (controls.ACCEPT || ACCEPT)
 		{
@@ -93,6 +96,9 @@ class OptionsMenu extends MusicBeatState
 				changeSelection(-1);
 			if (controls.DOWN_MENU || DOWN_P)
 				changeSelection(1);
+		        if (CONTROLS){
+				FlxG.switchState(new CustomControlsState());
+			}
 		}
 	}
 
