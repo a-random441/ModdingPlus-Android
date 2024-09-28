@@ -23,6 +23,7 @@ jobs:
 
       - name: Setup Android NDK
         uses: nttld/setup-ndk@v1.5.0
+        id: setup-ndk
         with:
           ndk-version: r21e
       - name: Setup Java JDK
