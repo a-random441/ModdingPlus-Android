@@ -15,6 +15,7 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
+import ui.FlxVirtualPad;
 import Controls.KeyboardScheme;
 import OptionsHandler.AccuracyMode;
 // visual studio code gets pissy when you don't use conditionals
@@ -56,6 +57,7 @@ class SaveDataState extends MusicBeatState
 	var musicJson:Dynamic = CoolUtil.parseJson(FNFAssets.getText("assets/music/custom_menu_music/custom_menu_music.json"));
 	var preferredSave:Int = 0;
 	var description:FlxText;
+	var _pad:FlxVirtualPad;
 	var forbiddenIndexes:Array<Int> = [];
 	override function create()
 	{
@@ -223,11 +225,22 @@ class SaveDataState extends MusicBeatState
 		changeSelection();
 		if (curOptions.allowEditOptions)
 			swapMenus();
+		_pad = new FlxVirtualPad(FULL, A_B);
+		_pad.alpha = 0.75;
+		this.add(_pad);
 		super.create();
 	}
 	override function update(elapsed:Float) {
 		super.update(elapsed);
-		if (controls.BACK) {
+		var UP_P = _pad.buttonUp.justPressed;
+		var DOWN_P = _pad.buttonDown.justPressed;
+		var LEFT_P = _pad.buttonLeft.justPressed;
+		var RIGHT_P = _pad.buttonRight.justPressed;
+		var LEFT = _pad.buttonLeft.justReleased;
+		var RIGHT = _pad.buttonRight.justReleased;
+		var BACK = _pad.buttonB.justPressed;
+		var ACCEPT = _pad.buttonA.justPressed;
+		if (controls.BACK || BACK) {
 			if (!saves.members[curSelected].beingSelected) {
 				// our current save saves this
 				// we are gonna have to do some shenanagins to save our preffered save
@@ -244,22 +257,22 @@ class SaveDataState extends MusicBeatState
 			}
 		}
 		if (inOptionsMenu || !saves.members[curSelected].askingToConfirm) {
-			if (controls.UP_MENU)
+			if (controls.UP_MENU || UP_P)
 			{
 				if (inOptionsMenu||!saves.members[curSelected].beingSelected)
 					changeSelection(-1);
 			}
-			if (controls.DOWN_MENU)
+			if (controls.DOWN_MENU || DOWN_P)
 			{
 				if (inOptionsMenu||!saves.members[curSelected].beingSelected)
 					changeSelection(1);
 			}
-			if ((controls.RIGHT_MENU || controls.LEFT_MENU)) {
+			if ((controls.RIGHT_MENU || controls.LEFT_MENU || LEFT_P || RIGHT_P)) {
 				if (saves.members[curSelected].beingSelected)
 					saves.members[curSelected].changeSelection();
 				else if (optionList[optionsSelected].amount != null) {
 
-					changeAmount(controls.RIGHT_MENU);
+					changeAmount(controls.RIGHT_MENU || RIGHT_P);
 
 				}	else {
 					if ((OptionsHandler.options.allowEditOptions && !inOptionsMenu) || (OptionsHandler.options.useSaveDataMenu && inOptionsMenu))
@@ -269,13 +282,13 @@ class SaveDataState extends MusicBeatState
 			}
 		}
 		// holding control makes changing things go WEEEEEEEEEEE
-		if (FlxG.keys.pressed.CONTROL && (controls.RIGHT_MENU_H || controls.LEFT_MENU_H)) {
+		if (FlxG.keys.pressed.CONTROL && (controls.RIGHT_MENU_H || controls.LEFT_MENU_H || LEFT || RIGHT)) {
 			if (inOptionsMenu && optionList[optionsSelected].amount != null)
 			{
-				changeAmount(controls.RIGHT_MENU_H);
+				changeAmount(controls.RIGHT_MENU_H || RIGHT);
 			}
 		}
-		if (controls.ACCEPT) {
+		if (controls.ACCEPT || ACCEPT) {
 			if (saves.members[curSelected].beingSelected) {
 				if (!saves.members[curSelected].askingToConfirm) {
 					if (saves.members[curSelected].selectingLoad) {
