@@ -469,9 +469,9 @@ class StoryMenuState extends MusicBeatState
 		        var BACK = _pad.buttonB.justPressed;
 
 		        #if android
-			var BACK = _pad.buttonB.justPressed || FlxG.android.justReleased.BACK;
+			    var BACK = _pad.buttonB.justPressed || FlxG.android.justReleased.BACK;
 		        #else
-			var BACK = _pad.buttonB.justPressed;
+			    var BACK = _pad.buttonB.justPressed;
 		        #end
 			if (!selectedWeek)
 			{
@@ -507,7 +507,7 @@ class StoryMenuState extends MusicBeatState
 			}
 		}
 
-		if (controls.BACK || BACK && !movedBack && !selectedWeek)
+		if (BACK && !movedBack && !selectedWeek)
 		{
 			FlxG.sound.play('assets/sounds/cancelMenu' + TitleState.soundExt);
 			movedBack = true;
