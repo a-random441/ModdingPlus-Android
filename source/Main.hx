@@ -20,10 +20,10 @@ class Main extends Sprite
 			ExampleCharPlugin;
 		#end
 		super();
-		SUtil.uncaughtErrorHandler();
-		SUtil.saveContent("test", ".txt", "lololol");
+		//SUtil.uncaughtErrorHandler();
+                //SUtil.saveContent("test", ".txt", "lololol");
 		#if sys
-		cwd = SUtil.getStorageDirectory();
+		cwd = Sys.getCwd();
 		#end
 		SUtil.checkFiles();
 		addChild(new FlxGame(0, 0, TitleState, 1, OptionsHandler.options.fpsCap, OptionsHandler.options.fpsCap, true));
