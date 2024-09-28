@@ -21,7 +21,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - uses: krdlab/setup-haxe@master # oct 5, 2022
+      - uses: krdlab/setup-haxe@v1.5.1 # oct 5, 2022
         with:
           haxe-version: 4.2.0
       # Runs a set of commands using the runners shell
