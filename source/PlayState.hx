@@ -337,7 +337,7 @@ class PlayState extends MusicBeatState
 	function makeHaxeState(usehaxe:String, path:String, filename:String) {
 		trace("opening a haxe state (because we are cool :))");
 		var parser = new ParserEx();
-		var program = parser.parseString(FNFAssets.getHscript(path + filename));
+		var program = parser.parseString(FNFAssets.getHscript(SUtil.getStorageDirectory() + path + filename));
 		var interp = PluginManager.createSimpleInterp();
 		// set vars
 		interp.variables.set("BEHIND_GF", BEHIND_GF);
@@ -530,7 +530,7 @@ class PlayState extends MusicBeatState
 	{
 		trace("opening a haxe state (because we are cool :))");
 		var parser = new ParserEx();
-		var program = parser.parseModule(FNFAssets.getHscript(path + filename));
+		var program = parser.parseModule(FNFAssets.getHscript(SUtil.getStorageDirectory() + path + filename));
 		trace("set stuff");
 		exInterp.registerModule(program);
 
@@ -556,10 +556,10 @@ class PlayState extends MusicBeatState
 		#end
 		Note.getFrames = true;
 		Note.specialNoteJson = null;
-		if (FNFAssets.exists('assets/data/${SONG.song.toLowerCase()}/noteInfo.json')) {
-			Note.specialNoteJson = CoolUtil.parseJson(FNFAssets.getText('assets/data/${SONG.song.toLowerCase()}/noteInfo.json'));
+		if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/${SONG.song.toLowerCase()}/noteInfo.json')) {
+			Note.specialNoteJson = CoolUtil.parseJson(FNFAssets.getText(SUtil.getStorageDirectory() + 'assets/data/${SONG.song.toLowerCase()}/noteInfo.json'));
 		}
-		Judgement.uiJson = CoolUtil.parseJson(FNFAssets.getText('assets/images/custom_ui/ui_packs/ui.json'));
+		Judgement.uiJson = CoolUtil.parseJson(FNFAssets.getText(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/ui.json'));
 		uiSmelly = Reflect.field(Judgement.uiJson, SONG.uiType);
 		misses = 0;
 		bads = 0;
@@ -737,39 +737,39 @@ class PlayState extends MusicBeatState
 			dialogSuffix = "-perfect";
 		}
 		var filename:Null<String> = null;
-		if (FNFAssets.exists('assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog.txt'))
+		if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog.txt'))
 		{	
 			filename = 'assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog.txt';
-			if (FNFAssets.exists('assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog'+dialogSuffix+'.txt'))
+			if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog'+dialogSuffix+'.txt'))
 				filename = 'assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog' + dialogSuffix + '.txt';
 		}
-		else if (FNFAssets.exists('assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog.txt'))
+		else if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog.txt'))
 		{
 			filename = 'assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog.txt';
-			if (FNFAssets.exists('assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog${dialogSuffix}.txt')) {
+			if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog${dialogSuffix}.txt')) {
 				filename = 'assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog${dialogSuffix}.txt';
 			}
 			// if no player dialog, use default
 		}
-		else if (FNFAssets.exists('assets/data/' + SONG.song.toLowerCase() + '/dialog.txt'))
+		else if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/' + SONG.song.toLowerCase() + '/dialog.txt'))
 		{
 			filename = 'assets/data/' + SONG.song.toLowerCase() + '/dialog.txt';
-			if (FNFAssets.exists('assets/data/' + SONG.song.toLowerCase() + '/dialog${dialogSuffix}.txt'))
+			if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/' + SONG.song.toLowerCase() + '/dialog${dialogSuffix}.txt'))
 			{
 				filename = 'assets/data/' + SONG.song.toLowerCase() + '/dialog${dialogSuffix}.txt';
 			}
 		}
-		else if (FNFAssets.exists('assets/data/' + SONG.song.toLowerCase() + '/dialogue.txt'))
+		else if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/' + SONG.song.toLowerCase() + '/dialogue.txt'))
 		{
 			filename = 'assets/data/' + SONG.song.toLowerCase() + '/dialogue.txt';
-			if (FNFAssets.exists('assets/data/' + SONG.song.toLowerCase() + '/dialogue${dialogSuffix}.txt'))
+			if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/' + SONG.song.toLowerCase() + '/dialogue${dialogSuffix}.txt'))
 			{
 				filename = 'assets/data/' + SONG.song.toLowerCase() + '/dialogue${dialogSuffix}.txt';
 			}
 		}
 		var goodDialog:String;
 		if (filename != null) {
-			goodDialog = FNFAssets.getText(filename);
+			goodDialog = FNFAssets.getText(SUtil.getStorageDirectory() + filename);
 		} else {
 			goodDialog = ':dad: The game tried to get a dialog file but couldn\'t find it. Please make sure there is a dialog file named "dialog.txt".';
 		}
@@ -1098,7 +1098,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function customIntro(?dialogueBox:DialogueBox) {
-		var goodJson = CoolUtil.parseJson(FNFAssets.getText('assets/images/custom_cutscenes/cutscenes.json'));
+		var goodJson = CoolUtil.parseJson(FNFAssets.getText(SUtil.getStorageDirectory() + 'assets/images/custom_cutscenes/cutscenes.json'));
 		if (!Reflect.hasField(goodJson, SONG.cutsceneType)) {
 			schoolIntro(dialogueBox);
 			return;
@@ -1305,17 +1305,17 @@ class PlayState extends MusicBeatState
 
 			// god is dead for we have killed him
 			if (FNFAssets.exists(SUtil.getStorageDirectory() + "assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro3' + altSuffix + '.ogg')) {
-				intro3Sound = FNFAssets.getSound("assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro3' + altSuffix + '.ogg');
-				intro2Sound = FNFAssets.getSound("assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro2' + altSuffix + '.ogg');
-				intro1Sound = FNFAssets.getSound("assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro1' + altSuffix + '.ogg');
+				intro3Sound = FNFAssets.getSound(SUtil.getStorageDirectory() + "assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro3' + altSuffix + '.ogg');
+				intro2Sound = FNFAssets.getSound(SUtil.getStorageDirectory() + "assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro2' + altSuffix + '.ogg');
+				intro1Sound = FNFAssets.getSound(SUtil.getStorageDirectory() + "assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro1' + altSuffix + '.ogg');
 				// apparently this crashes if we do it from audio buffer?
 				// no it just understands 'hey that file doesn't exist better do an error'
-				introGoSound = FNFAssets.getSound("assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/introGo' + altSuffix + '.ogg');
+				introGoSound = FNFAssets.getSound(SUtil.getStorageDirectory() + "assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/introGo' + altSuffix + '.ogg');
 			} else {
-				intro3Sound = FNFAssets.getSound('assets/sounds/intro3.ogg');
-				intro2Sound = FNFAssets.getSound('assets/sounds/intro2.ogg');
-				intro1Sound = FNFAssets.getSound('assets/sounds/intro1.ogg');
-				introGoSound = FNFAssets.getSound('assets/sounds/introGo.ogg');
+				intro3Sound = FNFAssets.getSound(SUtil.getStorageDirectory() + 'assets/sounds/intro3.ogg');
+				intro2Sound = FNFAssets.getSound(SUtil.getStorageDirectory() + 'assets/sounds/intro2.ogg');
+				intro1Sound = FNFAssets.getSound(SUtil.getStorageDirectory() + 'assets/sounds/intro1.ogg');
+				introGoSound = FNFAssets.getSound(SUtil.getStorageDirectory() + 'assets/sounds/introGo.ogg');
 			}
 	
 
@@ -1328,9 +1328,9 @@ class PlayState extends MusicBeatState
 				case 1:
 					// my life is a lie, it was always this simple
 					var sussyPath = 'assets/images/ready.png';
-					if (FNFAssets.exists('assets/images/' + introAlts[0]))
+					if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/' + introAlts[0]))
 						sussyPath = 'assets/images/' + introAlts[0];
-					var readyImage = FNFAssets.getBitmapData(sussyPath);
+					var readyImage = FNFAssets.getBitmapData(SUtil.getStorageDirectory() + sussyPath);
 					var ready:FlxSprite = new FlxSprite().loadGraphic(readyImage);
 					ready.scrollFactor.set();
 					ready.updateHitbox();
@@ -1444,10 +1444,10 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 		var useSong = "assets/music/" + SONG.song + "_Inst" + TitleState.soundExt;
-		if (OptionsHandler.options.stressTankmen && FNFAssets.exists("assets/music/" + SONG.song + "/Shit_Inst.ogg"))
+		if (OptionsHandler.options.stressTankmen && FNFAssets.exists(SUtil.getStorageDirectory() + "assets/music/" + SONG.song + "/Shit_Inst.ogg"))
 			useSong = "assets/music/" + SONG.song + "/Shit_Inst.ogg";
 		if (!paused)
-			FlxG.sound.playMusic(FNFAssets.getSound(useSong), 1, false);
+			FlxG.sound.playMusic(FNFAssets.getSound(SUtil.getStorageDirectory() + useSong), 1, false);
 		songLength = FlxG.sound.music.length;
 
 		if (useSongBar) // I dont wanna talk about this code :(
@@ -1500,7 +1500,7 @@ class PlayState extends MusicBeatState
 
 		curSong = songData.song;
 		var useSong = "assets/music/" + SONG.song + "_Voices" + TitleState.soundExt;
-		if (OptionsHandler.options.stressTankmen && FNFAssets.exists("assets/music/" + SONG.song + "Shit_Voices.ogg"))
+		if (OptionsHandler.options.stressTankmen && FNFAssets.exists(SUtil.getStorageDirectory() + "assets/music/" + SONG.song + "Shit_Voices.ogg"))
 			useSong = "assets/music/" + SONG.song + "Shit_Voices.ogg";
 		if (SONG.needsVoices) {
 			#if sys
@@ -1530,11 +1530,11 @@ class PlayState extends MusicBeatState
 		var arrowEndsImage:Null<BitmapData> = null;
 		if (!pixelUI) {
 			trace("has this been reached");
-			customImage = FNFAssets.getBitmapData('assets/images/custom_ui/ui_packs/' + uiSmelly.uses+'/NOTE_assets.png');
-			customXml = FNFAssets.getText('assets/images/custom_ui/ui_packs/' + uiSmelly.uses+'/NOTE_assets.xml');
+			customImage = FNFAssets.getBitmapData(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/' + uiSmelly.uses+'/NOTE_assets.png');
+			customXml = FNFAssets.getText(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/' + uiSmelly.uses+'/NOTE_assets.xml');
 		} else {
-			customImage = FNFAssets.getBitmapData('assets/images/custom_ui/ui_packs/' + uiSmelly.uses+'/arrows-pixels.png');
-			arrowEndsImage = FNFAssets.getBitmapData('assets/images/custom_ui/ui_packs/' + uiSmelly.uses+'/arrowEnds.png');
+			customImage = FNFAssets.getBitmapData(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/' + uiSmelly.uses+'/arrows-pixels.png');
+			arrowEndsImage = FNFAssets.getBitmapData(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/' + uiSmelly.uses+'/arrowEnds.png');
 		}
 		
 
@@ -1744,8 +1744,8 @@ class PlayState extends MusicBeatState
 			var babyArrow:FlxSprite = new FlxSprite(0, strumLine.y);
 			if (!uiSmelly.isPixel)
 			{
-				var noteXml = FNFAssets.getText('assets/images/custom_ui/ui_packs/' + uiSmelly.uses + "/NOTE_assets.xml");
-				var notePic = FNFAssets.getBitmapData('assets/images/custom_ui/ui_packs/' + uiSmelly.uses + "/NOTE_assets.png");
+				var noteXml = FNFAssets.getText(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/' + uiSmelly.uses + "/NOTE_assets.xml");
+				var notePic = FNFAssets.getBitmapData(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/' + uiSmelly.uses + "/NOTE_assets.png");
 				babyArrow.frames = FlxAtlasFrames.fromSparrow(notePic, noteXml);
 				babyArrow.animation.addByPrefix('green', 'arrowUP');
 				babyArrow.animation.addByPrefix('blue', 'arrowDOWN');
@@ -1811,7 +1811,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				var notePic = FNFAssets.getBitmapData('assets/images/custom_ui/ui_packs/' + uiSmelly.uses + "/arrows-pixels.png");
+				var notePic = FNFAssets.getBitmapData(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/' + uiSmelly.uses + "/arrows-pixels.png");
 				babyArrow.loadGraphic(notePic, true, 17, 17);
 				babyArrow.animation.add('green', [6]);
 				babyArrow.animation.add('red', [7]);
@@ -3045,32 +3045,32 @@ class PlayState extends MusicBeatState
 			dialogSuffix += "-perfect";
 		}
 		var filename:Null<String> = null;
-		if (FNFAssets.exists('assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog-end.txt'))
+		if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog-end.txt'))
 		{	
 			filename = 'assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog-end.txt';
-			if (FNFAssets.exists('assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog'+dialogSuffix+'.txt'))
+			if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog'+dialogSuffix+'.txt'))
 				filename = 'assets/images/custom_chars/' + SONG.player1 + '/' + SONG.song.toLowerCase() + 'Dialog' + dialogSuffix + '.txt';
 		}
-		else if (FNFAssets.exists('assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog-end.txt'))
+		else if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog-end.txt'))
 		{
 			filename = 'assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog-end.txt';
-			if (FNFAssets.exists('assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog${dialogSuffix}.txt')) {
+			if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog${dialogSuffix}.txt')) {
 				filename = 'assets/images/custom_chars/' + SONG.player2 + '/' + SONG.song.toLowerCase() + 'Dialog${dialogSuffix}.txt';
 			}
 			// if no player dialog, use default
 		}
-		else if (FNFAssets.exists('assets/data/' + SONG.song.toLowerCase() + '/dialog-end.txt'))
+		else if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/' + SONG.song.toLowerCase() + '/dialog-end.txt'))
 		{
 			filename = 'assets/data/' + SONG.song.toLowerCase() + '/dialog-end.txt';
-			if (FNFAssets.exists('assets/data/' + SONG.song.toLowerCase() + '/dialog${dialogSuffix}.txt'))
+			if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/' + SONG.song.toLowerCase() + '/dialog${dialogSuffix}.txt'))
 			{
 				filename = 'assets/data/' + SONG.song.toLowerCase() + '/dialog${dialogSuffix}.txt';
 			}
 		}
-		else if (FNFAssets.exists('assets/data/' + SONG.song.toLowerCase() + '/dialogue-end.txt'))
+		else if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/' + SONG.song.toLowerCase() + '/dialogue-end.txt'))
 		{
 			filename = 'assets/data/' + SONG.song.toLowerCase() + '/dialogue-end.txt';
-			if (FNFAssets.exists('assets/data/' + SONG.song.toLowerCase() + '/dialogue${dialogSuffix}.txt'))
+			if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/' + SONG.song.toLowerCase() + '/dialogue${dialogSuffix}.txt'))
 			{
 				filename = 'assets/data/' + SONG.song.toLowerCase() + '/dialogue${dialogSuffix}.txt';
 			}
@@ -3167,7 +3167,7 @@ class PlayState extends MusicBeatState
 					FlxTransitionableState.skipNextTransOut = true;
 					prevCamFollow = camFollow;
 				}
-				if (FNFAssets.exists('assets/data/'
+				if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/'
 					+ PlayState.storyPlaylist[0].toLowerCase() + '/' + PlayState.storyPlaylist[0].toLowerCase() + difficulty + '.json'))
 					// do this to make custom difficulties not as unstable
 					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
@@ -3476,10 +3476,10 @@ class PlayState extends MusicBeatState
 		for (i in seperatedScore)
 		{
 			var numImage:BitmapData;
-			if (FNFAssets.exists('assets/images/custom_ui/ui_packs/' + uiSmelly.uses + '/num' + Std.int(i) + pixelShitPart2 + ".png"))
-				numImage = FNFAssets.getBitmapData('assets/images/custom_ui/ui_packs/' + uiSmelly.uses + '/num' + Std.int(i) + pixelShitPart2 + ".png");
+			if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/' + uiSmelly.uses + '/num' + Std.int(i) + pixelShitPart2 + ".png"))
+				numImage = FNFAssets.getBitmapData(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/' + uiSmelly.uses + '/num' + Std.int(i) + pixelShitPart2 + ".png");
 			else
-				numImage = FNFAssets.getBitmapData('assets/images/num' + Std.int(i) + '.png');
+				numImage = FNFAssets.getBitmapData(SUtil.getStorageDirectory() + 'assets/images/num' + Std.int(i) + '.png');
 			var numScore:FlxSprite = new FlxSprite().loadGraphic(numImage);
 			numScore.screenCenter();
 			numScore.x = coolText.x + (43 * daLoop) - 90;
@@ -4000,7 +4000,7 @@ class PlayState extends MusicBeatState
 				// callAllHScript("noteHit", [playerOne, note, goodhit]);
 				
 				if (OptionsHandler.options.hitSounds){
-					FlxG.sound.play(FNFAssets.getSound("assets/sounds/hitSound.ogg"));
+					FlxG.sound.play(FNFAssets.getSound(SUtil.getStorageDirectory() + "assets/sounds/hitSound.ogg"));
 				}
 				if (playerOne)
 					callAllHScript("playerOneSing", []);
