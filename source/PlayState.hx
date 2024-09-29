@@ -15,11 +15,11 @@ import flixel.FlxG;
 import openfl.geom.Matrix;
 import flixel.FlxGame;
 import flixel.FlxObject;
-#if cpp
+#if desktop
 import Sys;
 import sys.FileSystem;
 #end
-#if desktop
+#if cpp
 import Discord.DiscordClient;
 #end
 import DifficultyIcons;
@@ -65,6 +65,9 @@ import hscript.Parser;
 import hscript.ParserEx;
 import hscript.InterpEx;
 import hscript.ClassDeclEx;
+#if mobile
+import mobilecontrols.Mobilecontrols;
+#end
 #if sys
 import sys.io.File;
 import sys.FileSystem;
@@ -219,6 +222,10 @@ class PlayState extends MusicBeatState
 	 * How big pixel assets are stretched
 	 */
 	public static var daPixelZoom:Float = 6;
+	
+	#if mobile
+	var mcontrols:Mobilecontrols; 
+	#end
 
 	var bfoffset = [0.0, 0.0];
 	var gfoffset = [0.0, 0.0];
@@ -539,7 +546,7 @@ class PlayState extends MusicBeatState
 	var uiSmelly:TUI;
 	override public function create()
 	{
-		#if cpp
+		#if desktop
 		// pre lowercasing the song name (create)
         var songLowercase = StringTools.replace(PlayState.SONG.song, " ", "-").toLowerCase();
         switch (songLowercase) {
@@ -774,8 +781,8 @@ class PlayState extends MusicBeatState
 
 		gf = new Character(400, 130, gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
-		#if cpp
-		if (FileSystem.exists(Paths.txt(SUtil.getStorageDirectory() + songLowercase  + "/preload")))
+		#if desktop
+		if (FileSystem.exists(Paths.txt(songLowercase  + "/preload")))
 			{
 				var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt(songLowercase  + "/preload"));
 	
@@ -785,7 +792,7 @@ class PlayState extends MusicBeatState
 					dad = new Character (0, 0, data[0]);
 				}
 			}
-		if (FileSystem.exists(Paths.txt(SUtil.getStorageDirectory() + songLowercase  + "/preload")))
+		if (FileSystem.exists(Paths.txt(songLowercase  + "/preload")))
 				{
 					var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt(songLowercase  + "/preload"));
 		
@@ -920,6 +927,15 @@ class PlayState extends MusicBeatState
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 
 		FlxG.fixedTimestep = false;
+		#if mobile
+		mcontrols = new Mobilecontrols();
+		var camcontrol = new FlxCamera();
+		FlxG.cameras.add(camcontrol);
+		camcontrol.bgColor.alpha = 0;
+		mcontrols.cameras = [camcontrol];
+
+		add(mcontrols);
+		#end
 		trace('gay');
 		if (useSongBar) {
 			// todo, add options
@@ -1022,8 +1038,8 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 		trace('finish uo');
 		
-		var stageJson = CoolUtil.parseJson(FNFAssets.getText("assets/images/custom_stages/custom_stages.json"));
-		makeHaxeState("stages", "assets/images/custom_stages/" + SONG.stage + "/", "../"+Reflect.field(stageJson, SONG.stage));
+		var stageJson = CoolUtil.parseJson(FNFAssets.getText(SUtil.getStorageDirectory() + "assets/images/custom_stages/custom_stages.json"));
+		makeHaxeState(SUtil.getStorageDirectory() + "stages", "assets/images/custom_stages/" + SONG.stage + "/", "../"+Reflect.field(stageJson, SONG.stage));
 	if (alwaysDoCutscenes || isStoryMode )
 		{
 
@@ -2241,7 +2257,8 @@ class PlayState extends MusicBeatState
 				health = -50;
 		}
 		accuracyTxt.text = "Accuracy:" + accuracy + "%";
-		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
+		//var enterPressed = FlxG.android.justReleased.BACK;
+		if (FlxG.keys.justPressed.ENTER || FlxG.android.justReleased.BACK && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
 			persistentDraw = true;
@@ -3549,6 +3566,23 @@ class PlayState extends MusicBeatState
 	private function keyShit(?playerOne:Bool=true):Void
 	{
 		// HOLDING
+		#if mobile
+
+		var up = mcontrols.UP;
+		var right = mcontrols.RIGHT;
+		var down = mcontrols.DOWN;
+		var left = mcontrols.LEFT;
+
+		var upP = mcontrols.UP_P;
+		var rightP = mcontrols.RIGHT_P;
+		var downP = mcontrols.DOWN_P;
+		var leftP = mcontrols.LEFT_P;
+
+		var upR = mcontrols.UP_R;
+		var rightR = mcontrols.RIGHT_R;
+		var downR = mcontrols.DOWN_R;
+		var leftR = mcontrols.LEFT_R;
+		#end
 		var coolControls = playerOne ? controls : controlsPlayerTwo;
 		var up = coolControls.UP;
 		var right = coolControls.RIGHT;
@@ -3866,6 +3900,13 @@ class PlayState extends MusicBeatState
 	{
 		// just double pasting this shit cuz fuk u
 		// REDO THIS SYSTEM!
+		#if mobile
+
+		var upP = mcontrols.UP_P;
+		var rightP = mcontrols.RIGHT_P;
+		var downP = mcontrols.DOWN_P;
+		var leftP = mcontrols.LEFT_P;
+		#end
 		var coolControls = playerOne ? controls : controlsPlayerTwo;
 		var upP = coolControls.UP_P;
 		var rightP = coolControls.RIGHT_P;
