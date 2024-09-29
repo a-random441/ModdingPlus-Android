@@ -54,8 +54,8 @@ class SaveDataState extends MusicBeatState
 	var optionsSelected:Int = 0;
 	var checkmarks:FlxTypedSpriteGroup<FlxSprite>;
 	var numberDisplays:Array<NumberDisplay> = [];
-	var sfxJson:Dynamic = CoolUtil.parseJson(FNFAssets.getText("assets/sounds/custom_menu_sounds/custom_menu_sounds.json"));
-	var musicJson:Dynamic = CoolUtil.parseJson(FNFAssets.getText("assets/music/custom_menu_music/custom_menu_music.json"));
+	var sfxJson:Dynamic = CoolUtil.parseJson(FNFAssets.getText(SUtil.getStorageDirectory() + "assets/sounds/custom_menu_sounds/custom_menu_sounds.json"));
+	var musicJson:Dynamic = CoolUtil.parseJson(FNFAssets.getText(SUtil.getStorageDirectory() + "assets/music/custom_menu_music/custom_menu_music.json"));
 	var preferredSave:Int = 0;
 	var description:FlxText;
 	var _pad:FlxVirtualPad;
@@ -63,7 +63,7 @@ class SaveDataState extends MusicBeatState
 	override function create()
 	{
 		FlxG.sound.music.stop();
-		var goodSound = FNFAssets.getSound(SUtil.getStorageDirectory() + 'assets/music/custom_menu_music/'
+		var goodSound = FNFAssets.getSound('assets/music/custom_menu_music/'
 			+ musicJson.Options
 			+ '/options'
 			+ TitleState.soundExt);
@@ -302,7 +302,7 @@ class SaveDataState extends MusicBeatState
 						preferredSave = curSelected;
 						FlxG.save.bind(saveName, "bulbyVR");
 						FlxG.sound.play('assets/sounds/custom_menu_sounds/'
-							+ CoolUtil.parseJson(FNFAssets.getText("assets/sounds/custom_menu_sounds/custom_menu_sounds.json")).customMenuConfirm+'/confirmMenu.ogg');
+							+ CoolUtil.parseJson(FNFAssets.getText(SUtil.getStorageDirectory() + "assets/sounds/custom_menu_sounds/custom_menu_sounds.json")).customMenuConfirm+'/confirmMenu.ogg');
 						// don't edit the djkf
 						if (FlxG.save.data.songScores == null) {
 							FlxG.save.data.songScores = ["tutorial" => 0];
@@ -375,8 +375,8 @@ class SaveDataState extends MusicBeatState
 						
 				}
 
-				FlxG.sound.play(SUtil.getStorageDirectory() + 'assets/sounds/custom_menu_sounds/'
-					+ CoolUtil.parseJson(FNFAssets.getText("assets/sounds/custom_menu_sounds/custom_menu_sounds.json")).customMenuScroll+'/scrollMenu' + TitleState.soundExt);
+				FlxG.sound.play('assets/sounds/custom_menu_sounds/'
+					+ CoolUtil.parseJson(FNFAssets.getText(SUtil.getStorageDirectory() + "assets/sounds/custom_menu_sounds/custom_menu_sounds.json")).customMenuScroll+'/scrollMenu' + TitleState.soundExt);
 			}
 		}
 
@@ -422,8 +422,8 @@ class SaveDataState extends MusicBeatState
 	function changeSelection(change:Int = 0)
 	{
 		if (!inOptionsMenu) {
-			FlxG.sound.play(SUtil.getStorageDirectory() + 'assets/sounds/custom_menu_sounds/'
-				+ CoolUtil.parseJson(FNFAssets.getText("assets/sounds/custom_menu_sounds/custom_menu_sounds.json")).customMenuScroll+'/scrollMenu' + TitleState.soundExt, 0.4);
+			FlxG.sound.play('assets/sounds/custom_menu_sounds/'
+				+ CoolUtil.parseJson(FNFAssets.getText(SUtil.getStorageDirectory() + "assets/sounds/custom_menu_sounds/custom_menu_sounds.json")).customMenuScroll+'/scrollMenu' + TitleState.soundExt, 0.4);
 
 			curSelected += change;
 
