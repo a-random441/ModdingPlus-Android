@@ -539,7 +539,7 @@ class PlayState extends MusicBeatState
 	var uiSmelly:TUI;
 	override public function create()
 	{
-		#if desktop
+		#if cpp
 		// pre lowercasing the song name (create)
         var songLowercase = StringTools.replace(PlayState.SONG.song, " ", "-").toLowerCase();
         switch (songLowercase) {
@@ -774,8 +774,8 @@ class PlayState extends MusicBeatState
 
 		gf = new Character(400, 130, gfVersion);
 		gf.scrollFactor.set(0.95, 0.95);
-		#if desktop
-		if (FileSystem.exists(Paths.txt(songLowercase  + "/preload")))
+		#if cpp
+		if (FileSystem.exists(Paths.txt(SUtil.getStorageDirectory() + songLowercase  + "/preload")))
 			{
 				var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt(songLowercase  + "/preload"));
 	
@@ -785,7 +785,7 @@ class PlayState extends MusicBeatState
 					dad = new Character (0, 0, data[0]);
 				}
 			}
-		if (FileSystem.exists(Paths.txt(songLowercase  + "/preload")))
+		if (FileSystem.exists(Paths.txt(SUtil.getStorageDirectory() + songLowercase  + "/preload")))
 				{
 					var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt(songLowercase  + "/preload"));
 		
