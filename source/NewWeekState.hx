@@ -129,7 +129,7 @@ class NewWeekState extends MusicBeatState
 	}
 	function writeCharacters() {
 		#if sys
-		var parsedWeekJson:StoryMenuState.StorySongsJson = CoolUtil.parseJson(FNFAssets.getJson("assets/data/storySonglist"));
+		var parsedWeekJson:StoryMenuState.StorySongsJson = CoolUtil.parseJson(FNFAssets.getJson(SUtil.getStorageDirectory() + "assets/data/storySonglist"));
 		
 		var coolSongArray:Array<String> = [];
 		coolSongArray.push(likeText.text);
@@ -139,9 +139,9 @@ class NewWeekState extends MusicBeatState
 		}
 		trace("Pog");
 		trace(epicFiles.png);
-		File.copy(epicFiles.png, 'assets/images/campaign-ui-week/week' + parsedWeekJson.songs.length + '.png');
+		SUtil.copy(epicFiles.png, 'assets/images/campaign-ui-week/week' + parsedWeekJson.songs.length + '.png');
 		trace("ehh");
-		File.copy(epicFiles.xml, 'assets/images/campaign-ui-week/week' + parsedWeekJson.songs.length + '.xml');
+		SUtil.copy(epicFiles.xml, 'assets/images/campaign-ui-week/week' + parsedWeekJson.songs.length + '.xml');
 		trace("parsed");
 		if (parsedWeekJson.version == 1 || parsedWeekJson.version == null) {
 			parsedWeekJson.songs.push(coolSongArray);
@@ -153,7 +153,7 @@ class NewWeekState extends MusicBeatState
 
 		}
 		
-		File.saveContent('assets/data/storySonglist.json', CoolUtil.stringifyJson(parsedWeekJson));
+		SUtil.saveContent('assets/data/storySonglist.json', CoolUtil.stringifyJson(parsedWeekJson));
 		trace("cool stuff");
 		#end
 	}
