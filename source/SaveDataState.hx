@@ -63,11 +63,11 @@ class SaveDataState extends MusicBeatState
 	override function create()
 	{
 		FlxG.sound.music.stop();
-		var goodSound = FNFAssets.getSound('assets/music/custom_menu_music/'
+		var goodSound = FNFAssets.getSound(SUtil.getStorageDirectory() + 'assets/music/custom_menu_music/'
 			+ musicJson.Options
 			+ '/options'
 			+ TitleState.soundExt);
-		optionMask = CoolUtil.parseJson(FNFAssets.getJson('assets/data/optionsMask'));
+		optionMask = CoolUtil.parseJson(FNFAssets.getJson(SUtil.getStorageDirectory() + 'assets/data/optionsMask'));
 		FlxG.sound.playMusic(goodSound);
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic('assets/images/menuDesat.png');
 			optionList = [
@@ -375,7 +375,7 @@ class SaveDataState extends MusicBeatState
 						
 				}
 
-				FlxG.sound.play('assets/sounds/custom_menu_sounds/'
+				FlxG.sound.play(SUtil.getStorageDirectory() + 'assets/sounds/custom_menu_sounds/'
 					+ CoolUtil.parseJson(FNFAssets.getText("assets/sounds/custom_menu_sounds/custom_menu_sounds.json")).customMenuScroll+'/scrollMenu' + TitleState.soundExt);
 			}
 		}
@@ -403,7 +403,7 @@ class SaveDataState extends MusicBeatState
 			}
 		}
 		if (optionList[optionsSelected].intName == "preferJudgement") {
-			var judgementList = CoolUtil.coolTextFile('assets/data/judgements.txt');
+			var judgementList = CoolUtil.coolTextFile(SUtil.getStorageDirectory() + 'assets/data/judgements.txt');
 			numberDisplays[optionsSelected].text = judgementList[Std.int(optionList[optionsSelected].amount)];
 		}
 		if (optionList[optionsSelected].intName == "accuracyMode") {
@@ -422,7 +422,7 @@ class SaveDataState extends MusicBeatState
 	function changeSelection(change:Int = 0)
 	{
 		if (!inOptionsMenu) {
-			FlxG.sound.play('assets/sounds/custom_menu_sounds/'
+			FlxG.sound.play(SUtil.getStorageDirectory() + 'assets/sounds/custom_menu_sounds/'
 				+ CoolUtil.parseJson(FNFAssets.getText("assets/sounds/custom_menu_sounds/custom_menu_sounds.json")).customMenuScroll+'/scrollMenu' + TitleState.soundExt, 0.4);
 
 			curSelected += change;
@@ -451,7 +451,7 @@ class SaveDataState extends MusicBeatState
 			}
 		} else {
 			FlxG.sound.play('assets/sounds/custom_menu_sounds/'
-				+ CoolUtil.parseJson(FNFAssets.getText("assets/sounds/custom_menu_sounds/custom_menu_sounds.json")).customMenuScroll+'/scrollMenu' + TitleState.soundExt, 0.4);
+				+ CoolUtil.parseJson(FNFAssets.getText(SUtil.getStorageDirectory() + "assets/sounds/custom_menu_sounds/custom_menu_sounds.json")).customMenuScroll+'/scrollMenu' + TitleState.soundExt, 0.4);
 
 			optionsSelected += change;
 
