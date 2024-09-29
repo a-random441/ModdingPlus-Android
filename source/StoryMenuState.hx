@@ -88,7 +88,7 @@ class StoryMenuState extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 	var _pad:FlxVirtualPad;
-	var BACK:Bool;
+	//var BACK:Bool;
 	var oldMode:Bool = false;
 	var yellowBG:FlxSprite;
 	override function create()
