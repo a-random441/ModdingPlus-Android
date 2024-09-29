@@ -9,12 +9,13 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.system.FlxSound;
 import flixel.util.FlxColor;
+import ui.FlxVirtualPad;
 
 class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Change Options', 'Change Modifiers', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Change Options', 'Change Modifiers', 'Chart Menu', 'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -47,6 +48,11 @@ class PauseSubState extends MusicBeatSubstate
 		changeSelection();
 
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+
+		_pad = new FlxVirtualPad(UP_DOWN, A);
+    	        _pad.alpha = 0.75;
+    	        this.add(_pad);
+		_pad.cameras = cameras;
 	}
 
 	override function update(elapsed:Float)
@@ -56,9 +62,15 @@ class PauseSubState extends MusicBeatSubstate
 
 		super.update(elapsed);
 
-		var upP = controls.UP_MENU;
-		var downP = controls.DOWN_MENU;
-		var accepted = controls.ACCEPT;
+		var upP = controls.UP_MENU || UP_P;
+		var downP = controls.DOWN_MENU || DOWN_P;
+		var accepted = controls.ACCEPT || ACCEPT;
+
+		#if android
+		if (FlxG.android.justReleased.BACK == true){
+			close();
+		}
+		#end
 
 		if (upP)
 		{
@@ -88,6 +100,8 @@ class PauseSubState extends MusicBeatSubstate
 					LoadingState.loadAndSwitchState(new ModifierState());
 				case "Change Options":
 					LoadingState.loadAndSwitchState(new SaveDataState());
+				case "Chart Menu":
+					FlxG.switchState(new ChartingState());
 			}
 		}
 
