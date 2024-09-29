@@ -20,6 +20,8 @@ class PauseSubState extends MusicBeatSubstate
 
 	var pauseMusic:FlxSound;
 
+	var _pad:FlxVirtualPad;
+
 	public function new(x:Float, y:Float)
 	{
 		super();
