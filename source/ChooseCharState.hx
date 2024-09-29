@@ -21,6 +21,7 @@ import flixel.ui.FlxButton;
 import flixel.ui.FlxSpriteButton;
 import flixel.addons.ui.FlxUITabMenu;
 import lime.system.System;
+import ui.FlxVirtualPad;
 import lime.app.Event;
 import haxe.Json;
 import tjson.TJSON;
@@ -38,6 +39,8 @@ class ChooseCharState extends MusicBeatState
     var curChar:String = PlayState.SONG.player1;
 
     var dadMenu:Bool = false;
+
+    var _pad:FlxVirtualPad;
 
 
     public function new(anim:String = "bf")
@@ -86,6 +89,10 @@ class ChooseCharState extends MusicBeatState
         add(grpAlphabet);
         trace("it's 11 pm"); //it's 12 pm
 
+	_pad = new FlxVirtualPad(UP_DOWN, A_B);
+	_pad.alpha = 0.75;
+	this.add(_pad);
+
         super.create();
 
     }
@@ -98,23 +105,29 @@ class ChooseCharState extends MusicBeatState
 
     override function update(elapsed:Float) {
         super.update(elapsed);
-        if (controls.BACK) {
+        var UP_P = _pad.buttonUp.justPressed;
+	var DOWN_P = _pad.buttonDown.justPressed;
+	var LEFT_P = _pad.buttonLeft.justPressed;
+	var RIGHT_P = _pad.buttonRight.justPressed;
+	var BACK = _pad.buttonB.justPressed;
+	var ACCEPT = _pad.buttonA.justPressed;
+        if (controls.BACK || BACK) {
 			LoadingState.loadAndSwitchState(new ModifierState());
         }
-        if (controls.UP_MENU)
+        if (controls.UP_MENU || UP_P)
         {
             changeSelection(-1);
         }
-        if (controls.DOWN_MENU)
+        if (controls.DOWN_MENU || DOWN_P)
         {
             changeSelection(1);
         }
 
-        if (controls.RIGHT_MENU || controls.LEFT_MENU) {
+        if (controls.RIGHT_MENU || controls.LEFT_MENU || RIGHT_P || LEFT_P) {
                 swapMenus();
         }
 
-        if (controls.ACCEPT)
+        if (controls.ACCEPT || ACCEPT)
             chooseSelection();
     }
 
