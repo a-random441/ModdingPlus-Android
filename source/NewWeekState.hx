@@ -139,9 +139,9 @@ class NewWeekState extends MusicBeatState
 		}
 		trace("Pog");
 		trace(epicFiles.png);
-		SUtil.copy(epicFiles.png, 'assets/images/campaign-ui-week/week' + parsedWeekJson.songs.length + '.png');
+		File.copy(epicFiles.png, 'assets/images/campaign-ui-week/week' + parsedWeekJson.songs.length + '.png');
 		trace("ehh");
-		SUtil.copy(epicFiles.xml, 'assets/images/campaign-ui-week/week' + parsedWeekJson.songs.length + '.xml');
+		File.copy(epicFiles.xml, 'assets/images/campaign-ui-week/week' + parsedWeekJson.songs.length + '.xml');
 		trace("parsed");
 		if (parsedWeekJson.version == 1 || parsedWeekJson.version == null) {
 			parsedWeekJson.songs.push(coolSongArray);
