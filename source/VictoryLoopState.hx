@@ -259,7 +259,7 @@ class VictoryLoopState extends MusicBeatSubstate
 				trace(PlayState.storyPlaylist);
 				var diffic = DifficultyIcons.getEndingFP(PlayState.storyDifficulty);
 				for (peckUpAblePath in PlayState.storyPlaylist) {
-					if (!FNFAssets.exists('assets/data/'+peckUpAblePath.toLowerCase()+'/'+peckUpAblePath.toLowerCase() + diffic+'.json')) {
+					if (!FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/data/'+peckUpAblePath.toLowerCase()+'/'+peckUpAblePath.toLowerCase() + diffic+'.json')) {
 						// probably messed up difficulty
 						trace("UH OH DIFFICULTY DOESN'T EXIST FOR A SONG");
 						trace("CHANGING TO DEFAULT DIFFICULTY");
