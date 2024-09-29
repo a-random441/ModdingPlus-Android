@@ -162,7 +162,7 @@ class Character extends FlxSprite
 		trace(curCharacter);
 		var charJson:Dynamic = null;
 		var isError:Bool = false;
-		charJson = CoolUtil.parseJson(FNFAssets.getJson('assets/images/custom_chars/custom_chars'));
+		charJson = CoolUtil.parseJson(FNFAssets.getJson(SUtil.getStorageDirectory() + 'assets/images/custom_chars/custom_chars'));
 		interp = Character.getAnimInterp(curCharacter);
 		callInterp("init", [this]);
 		dance();
@@ -410,7 +410,7 @@ class Character extends FlxSprite
 	public static function getAnimInterp(char:String):Interp {
 		var interp = PluginManager.createSimpleInterp();
 		var parser = new hscript.Parser();
-		var charJson = CoolUtil.parseJson(FNFAssets.getJson('assets/images/custom_chars/custom_chars'));
+		var charJson = CoolUtil.parseJson(FNFAssets.getJson(SUtil.getStorageDirectory() + 'assets/images/custom_chars/custom_chars'));
 		var program:Expr;
 		if (FNFAssets.exists('assets/images/custom_chars/' + Reflect.field(charJson, char).like, Hscript))
 			program = parser.parseString(FNFAssets.getHscript('assets/images/custom_chars/' + Reflect.field(charJson, char).like));
