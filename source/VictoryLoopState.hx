@@ -11,6 +11,7 @@ import lime.system.System;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
 import lime.utils.Assets;
+import ui.FlxVirtualPad;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
@@ -39,6 +40,7 @@ class VictoryLoopState extends MusicBeatSubstate
 	var canPlayHey:Bool = true;
 	var accuracy:Float;
 	var accuracyTxt:FlxText;
+	var _pad:FlxVirtualPad;
 	var camHUD:FlxCamera;
 	public function new(x:Float, y:Float, gfX:Float, gfY:Float, accuracy:Float, score:Int, dadX:Float, dadY:Float)
 	{
@@ -139,11 +141,25 @@ class VictoryLoopState extends MusicBeatSubstate
 		bf.playAnim('idle');
 	}
 
+	override function create()
+	{
+		_pad = new FlxVirtualPad(UP_DOWN, A);
+		_pad.alpha = 0.75;
+		this.add(_pad);
+
+		super.create(); //yep, exactly as i thought
+	}
+
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		if (controls.ACCEPT)
+		var UP_P = _pad.buttonUp.justPressed;
+		var DOWN_P = _pad.buttonDown.justPressed;
+		//var BACK = _pad.buttonB.justPressed;
+		var ACCEPT = _pad.buttonA.justPressed;
+		
+		if (controls.ACCEPT || ACCEPT)
 		{
 			if (selectingRetry && !PlayState.isStoryMode) {
 				endBullshit();
@@ -157,7 +173,7 @@ class VictoryLoopState extends MusicBeatSubstate
 			}
 		}
 
-		if ((controls.UP_MENU || controls.DOWN_MENU)) {
+		if ((controls.UP_MENU || controls.DOWN_MENU || UP_P || DOWN_P)) {
 			selectingRetry = !selectingRetry;
 			if (selectingRetry) {
 				retryTxt.alpha = 1;
