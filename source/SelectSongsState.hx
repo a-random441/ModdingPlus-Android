@@ -13,6 +13,7 @@ import flixel.util.FlxColor;
 import lime.utils.Assets;
 import DifficultyIcons;
 import lime.system.System;
+import ui.FlxVirtualPad;
 #if sys
 import sys.io.File;
 import haxe.io.Path;
@@ -41,11 +42,12 @@ class SelectSongsState extends MusicBeatSubstate
 	var usingCategoryScreen:Bool = false;
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var checkmarks:FlxTypedSpriteGroup<FlxSprite>;
+	var _pad:FlxVirtualPad;
 	private var curPlaying:Bool = false;
 
 	override function create()
 	{
-		var coolCategoryJson:Array<TCategory> = CoolUtil.parseJson(Assets.getText('assets/data/freeplaySongJson.jsonc'));
+		var coolCategoryJson:Array<TCategory> = CoolUtil.parseJson(Assets.getText(SUtil.getStorageDirectory() + 'assets/data/freeplaySongJson.jsonc'));
 
 
 		for (coolCategory in coolCategoryJson) {
@@ -106,6 +108,10 @@ class SelectSongsState extends MusicBeatSubstate
 			trace(md);
 		 */
 
+		_pad = new FlxVirtualPad(UP_DOWN, A_B);
+		_pad.alpha = 0.75;
+		this.add(_pad);
+
 		super.create();
 	}
 
@@ -124,9 +130,10 @@ class SelectSongsState extends MusicBeatSubstate
 			lerpScore = intendedScore;
 
 
-		var upP = controls.UP_MENU;
-		var downP = controls.DOWN_MENU;
-		var accepted = controls.ACCEPT;
+		var upP = controls.UP_MENU || _pad.buttonUp.justPressed;
+		var downP = controls.DOWN_MENU || _pad.buttonDown.justPressed;
+		var accepted = controls.ACCEPT || _pad.buttonA.justPressed;
+		var BACK = _pad.buttonB.justPressrd;
 
 		if (upP)
 		{
@@ -137,7 +144,7 @@ class SelectSongsState extends MusicBeatSubstate
 			changeSelection(1);
 		}
 
-		if (controls.BACK)
+		if (controls.BACK || BACK)
 		{
 			close();
 		}
