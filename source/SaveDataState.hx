@@ -16,6 +16,7 @@ import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import lime.utils.Assets;
 import ui.FlxVirtualPad;
+import options.CustomControlsState;
 import Controls.KeyboardScheme;
 import OptionsHandler.AccuracyMode;
 // visual studio code gets pissy when you don't use conditionals
@@ -225,7 +226,7 @@ class SaveDataState extends MusicBeatState
 		changeSelection();
 		if (curOptions.allowEditOptions)
 			swapMenus();
-		_pad = new FlxVirtualPad(FULL, A_B);
+		_pad = new FlxVirtualPad(FULL, A_B_C);
 		_pad.alpha = 0.75;
 		this.add(_pad);
 		super.create();
@@ -240,6 +241,10 @@ class SaveDataState extends MusicBeatState
 		var RIGHT = _pad.buttonRight.justReleased;
 		var BACK = _pad.buttonB.justPressed;
 		var ACCEPT = _pad.buttonA.justPressed;
+		var CONTROLS = _pad.buttonC.justPressed;
+		if (CONTROLS){
+			FlxG.switchState(new CustomControlsState());
+		}
 		if (controls.BACK || BACK) {
 			if (!saves.members[curSelected].beingSelected) {
 				// our current save saves this
