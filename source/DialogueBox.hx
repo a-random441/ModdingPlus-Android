@@ -84,6 +84,7 @@ class DialogueBox extends FlxSpriteGroup
 
 	var handSelect:FlxSprite;
 	var bgFade:FlxSprite;
+	var screenJustTouched:Bool = false;
 	public function new(talkingRight:Bool = true, ?dialogueInput:String)
 	{	
 		super();
@@ -241,13 +242,21 @@ class DialogueBox extends FlxSpriteGroup
 			startDialogue();
 			dialogueStarted = true;
 		}
+		for (touch in FlxG.touches.list)
+		{
+		     screenJustTouched = false;
+			
+		     if (touch.justReleased){
+			 screenJustTouched = true;
+			}
+		}
 		if (PlayerSettings.player1.controls.SECONDARY) {
 			// skip all this shit
 			if (!isEnding)
 			{
 				endDialog();
 			}
-		} else if (FlxG.keys.justPressed.ANY && dialogueStarted == true)
+		} else if (FlxG.keys.justPressed.ANY || screenJustTouched && dialogueStarted == true)
 		{
 			remove(dialogue);
 
