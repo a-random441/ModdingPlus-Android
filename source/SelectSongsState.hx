@@ -47,7 +47,7 @@ class SelectSongsState extends MusicBeatSubstate
 
 	override function create()
 	{
-		var coolCategoryJson:Array<TCategory> = CoolUtil.parseJson(Assets.getText(SUtil.getStorageDirectory() + 'assets/data/freeplaySongJson.jsonc'));
+		var coolCategoryJson:Array<TCategory> = CoolUtil.parseJson(Assets.getText(assets/data/freeplaySongJson.jsonc'));
 
 
 		for (coolCategory in coolCategoryJson) {
