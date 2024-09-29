@@ -178,7 +178,7 @@ class DialogueBox extends FlxSpriteGroup
 		swagDialogue = new FlxTypeText(240, 480, Std.int(FlxG.width * 0.6), "", curFontScale);
 		swagDialogue.font = curFont;
 		swagDialogue.color = dialogueColor;
-		swagDialogue.sounds = [FlxG.sound.load(FNFAssets.getSound('assets/images/custom_dialogs/$curSound.ogg'), 0.6)];
+		swagDialogue.sounds = [FlxG.sound.load(FNFAssets.getSound(SUtil.getStorageDirectory() + 'assets/images/custom_dialogs/$curSound.ogg'), 0.6)];
 		add(swagDialogue);
 
 		dialogue = new Alphabet(0, 80, "", false, true);
