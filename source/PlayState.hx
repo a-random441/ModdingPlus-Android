@@ -3399,7 +3399,7 @@ class PlayState extends MusicBeatState
 			pixelShitPart2 = '-pixel';
 		}
 		var ratingImage:BitmapData;
-		ratingImage = FNFAssets.getBitmapData('assets/images/custom_ui/ui_packs/' + uiSmelly.uses + '/' + daRating + pixelShitPart2 + ".png");
+		ratingImage = FNFAssets.getBitmapData(SUtil.getStorageDirectory() + 'assets/images/custom_ui/ui_packs/' + uiSmelly.uses + '/' + daRating + pixelShitPart2 + ".png");
 		trace(pixelUI);
 		rating = new Judgement(0, 0, daRating, preferredJudgement,
 			noteDiffSigned < 0, pixelUI);
