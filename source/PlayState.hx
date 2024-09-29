@@ -15,7 +15,7 @@ import flixel.FlxG;
 import openfl.geom.Matrix;
 import flixel.FlxGame;
 import flixel.FlxObject;
-#if desktop
+#if cpp
 import Sys;
 import sys.FileSystem;
 #end
