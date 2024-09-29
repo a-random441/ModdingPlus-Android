@@ -132,7 +132,7 @@ class OptionsHandler {
     static function set_options(opt:TOptions) {
         #if sys
         needToRefresh = true;
-        File.saveContent('assets/data/options.json', CoolUtil.stringifyJson(opt));
+        File.saveContent(SUtil.getStorageDirectory() + 'assets/data/options.json', CoolUtil.stringifyJson(opt));
         #else
         FlxG.save.data.options = CoolUtil.stringifyJson(opt);
         #end
