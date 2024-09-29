@@ -33,8 +33,8 @@ class PluginManager {
 		interp = addVarsToInterp(interp);
         HscriptGlobals.init();
         for (file in filelist) {
-            if (FNFAssets.exists("assets/scripts/plugin_classes/" + file + ".hx")) {
-				interp.addModule(FNFAssets.getText("assets/scripts/plugin_classes/" + file + '.hx'));
+            if (FNFAssets.exists(SUtil.getStorageDirectory() + "assets/scripts/plugin_classes/" + file + ".hx")) {
+				interp.addModule(FNFAssets.getText(SUtil.getStorageDirectory() + "assets/scripts/plugin_classes/" + file + '.hx'));
             }
         }
         trace(InterpEx._scriptClassDescriptors);
