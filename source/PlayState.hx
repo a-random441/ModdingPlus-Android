@@ -1103,7 +1103,7 @@ class PlayState extends MusicBeatState
 			schoolIntro(dialogueBox);
 			return;
 		}
-		makeHaxeState("cutscene", "assets/images/custom_cutscenes/"+SONG.cutsceneType+'/', "../"+Reflect.field(goodJson, SONG.cutsceneType));
+		makeHaxeState(SUtil.getStorageDirectory() + "cutscene", "assets/images/custom_cutscenes/"+SONG.cutsceneType+'/', "../"+Reflect.field(goodJson, SONG.cutsceneType));
 		
 	}
 	function schoolIntro(?dialogueBox:DialogueBox, intro:Bool=true):Void
@@ -1244,9 +1244,9 @@ class PlayState extends MusicBeatState
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);
-		if (FNFAssets.exists("assets/data/" + SONG.song.toLowerCase() + "/modchart", Hscript))
+		if (FNFAssets.exists(SUtil.getStorageDirectory() + "assets/data/" + SONG.song.toLowerCase() + "/modchart", Hscript))
 		{
-			makeHaxeState("modchart", "assets/data/" + SONG.song.toLowerCase() + "/", "modchart");
+			makeHaxeState(SUtil.getStorageDirectory() + "modchart", "assets/data/" + SONG.song.toLowerCase() + "/", "modchart");
 			
 		}
 		if (duoMode)
@@ -1275,14 +1275,14 @@ class PlayState extends MusicBeatState
 			for (field in Reflect.fields(Judgement.uiJson)) {
 				if (Reflect.field(Judgement.uiJson, field).isPixel)
 					introAssets.set(field, [
-						'custom_ui/ui_packs/' + Reflect.field(Judgement.uiJson, field).uses + '/ready-pixel.png',
-						'custom_ui/ui_packs/' + Reflect.field(Judgement.uiJson, field).uses + '/set-pixel.png',
-						'custom_ui/ui_packs/' + Reflect.field(Judgement.uiJson, field).uses+'/date-pixel.png']);
+						SUtil.getStorageDirectory() + 'custom_ui/ui_packs/' + Reflect.field(Judgement.uiJson, field).uses + '/ready-pixel.png',
+						SUtil.getStorageDirectory() + 'custom_ui/ui_packs/' + Reflect.field(Judgement.uiJson, field).uses + '/set-pixel.png',
+						SUtil.getStorageDirectory() + 'custom_ui/ui_packs/' + Reflect.field(Judgement.uiJson, field).uses+'/date-pixel.png']);
 				else
 					introAssets.set(field, [
-						'custom_ui/ui_packs/' + field + '/ready.png',
-						'custom_ui/ui_packs/' + Reflect.field(Judgement.uiJson, field).uses + '/set.png',
-						'custom_ui/ui_packs/' + Reflect.field(Judgement.uiJson, field).uses+'/go.png']);
+						SUtil.getStorageDirectory() + 'custom_ui/ui_packs/' + field + '/ready.png',
+						SUtil.getStorageDirectory() + 'custom_ui/ui_packs/' + Reflect.field(Judgement.uiJson, field).uses + '/set.png',
+						SUtil.getStorageDirectory() + 'custom_ui/ui_packs/' + Reflect.field(Judgement.uiJson, field).uses+'/go.png']);
 			
 			}
 
@@ -1304,7 +1304,7 @@ class PlayState extends MusicBeatState
 			}
 
 			// god is dead for we have killed him
-			if (FNFAssets.exists("assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro3' + altSuffix + '.ogg')) {
+			if (FNFAssets.exists(SUtil.getStorageDirectory() + "assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro3' + altSuffix + '.ogg')) {
 				intro3Sound = FNFAssets.getSound("assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro3' + altSuffix + '.ogg');
 				intro2Sound = FNFAssets.getSound("assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro2' + altSuffix + '.ogg');
 				intro1Sound = FNFAssets.getSound("assets/images/custom_ui/ui_packs/" + uiSmelly.uses + '/intro1' + altSuffix + '.ogg');
@@ -1350,7 +1350,7 @@ class PlayState extends MusicBeatState
 					FlxG.sound.play(intro2Sound, 0.6);
 				case 2:
 					var sussyPath = 'assets/images/set.png';
-					if (FNFAssets.exists('assets/images/' + introAlts[1]))
+					if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/' + introAlts[1]))
 						sussyPath = 'assets/images/' + introAlts[1];
 					var setImage = FNFAssets.getBitmapData(sussyPath);
 					// can't believe you can actually use this as a variable name
@@ -1372,7 +1372,7 @@ class PlayState extends MusicBeatState
 					FlxG.sound.play(intro1Sound, 0.6);
 				case 3:
 					var sussyPath = 'assets/images/go.png';
-					if (FNFAssets.exists('assets/images/' + introAlts[2]))
+					if (FNFAssets.exists(SUtil.getStorageDirectory() + 'assets/images/' + introAlts[2]))
 						sussyPath = 'assets/images/' + introAlts[2];
 					var goImage = FNFAssets.getBitmapData(sussyPath);
 					var go:FlxSprite = new FlxSprite().loadGraphic(goImage);
@@ -3582,23 +3582,30 @@ class PlayState extends MusicBeatState
 		var rightR = mcontrols.RIGHT_R;
 		var downR = mcontrols.DOWN_R;
 		var leftR = mcontrols.LEFT_R;
-		#end
-		var coolControls = playerOne ? controls : controlsPlayerTwo;
+
+		#else
 		var up = coolControls.UP;
 		var right = coolControls.RIGHT;
 		var down = coolControls.DOWN;
 		var left = coolControls.LEFT;
-		var holdArray = [left, down, up, right];
-		var upP = coolControls.UP_P;
+		
+        var upP = coolControls.UP_P;
 		var rightP = coolControls.RIGHT_P;
 		var downP = coolControls.DOWN_P;
 		var leftP = coolControls.LEFT_P;
 
-		
 		var upR = coolControls.UP_R;
 		var rightR = coolControls.RIGHT_R;
 		var downR = coolControls.DOWN_R;
-		var leftR = coolControls.LEFT_R;
+		var leftR = coolControls.LEFT_R;;
+		#end
+		var coolControls = playerOne ? controls : controlsPlayerTwo;
+
+		var holdArray = [left, down, up, right];
+		
+
+		
+
 		var releaseArray = [leftR, downR, upR, rightR];
 		var controlArray:Array<Bool> = [leftP, downP, upP, rightP];
 		var pressArray = controlArray;
@@ -3906,12 +3913,15 @@ class PlayState extends MusicBeatState
 		var rightP = mcontrols.RIGHT_P;
 		var downP = mcontrols.DOWN_P;
 		var leftP = mcontrols.LEFT_P;
-		#end
-		var coolControls = playerOne ? controls : controlsPlayerTwo;
+
+		#else
 		var upP = coolControls.UP_P;
 		var rightP = coolControls.RIGHT_P;
 		var downP = coolControls.DOWN_P;
 		var leftP = coolControls.LEFT_P;
+		#end
+		var coolControls = playerOne ? controls : controlsPlayerTwo;
+
 
 		if (leftP)
 			noteMiss(0, playerOne);
