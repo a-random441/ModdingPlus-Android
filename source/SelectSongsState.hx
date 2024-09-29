@@ -133,7 +133,7 @@ class SelectSongsState extends MusicBeatSubstate
 		var upP = controls.UP_MENU || _pad.buttonUp.justPressed;
 		var downP = controls.DOWN_MENU || _pad.buttonDown.justPressed;
 		var accepted = controls.ACCEPT || _pad.buttonA.justPressed;
-		var BACK = _pad.buttonB.justPressrd;
+		var BACK = _pad.buttonB.justPressed;
 
 		if (upP)
 		{
