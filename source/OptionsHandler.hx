@@ -1,8 +1,8 @@
 package;
 import lime.utils.Assets;
-#if sys
+//#if sys
 import sys.io.File;
-#end
+//#end
 import flixel.FlxG;
 enum abstract AccuracyMode(Int) from Int to Int {
     var None = -1;
@@ -123,19 +123,19 @@ class OptionsHandler {
 
         }
 		return lastOptions;
-       // #else
-        if (!Reflect.hasField(FlxG.save.data, "options"))
-			FlxG.save.data.options = CoolUtil.parseJson(FNFAssets.getJson(SUtil.getStorageDirectory() + 'assets/data/options'));
-        return FlxG.save.data.options;
-       // #end
+        //#else
+        //if (!Reflect.hasField(FlxG.save.data, "options"))
+			//FlxG.save.data.options = CoolUtil.parseJson(FNFAssets.getJson(SUtil.getStorageDirectory() + 'assets/data/options'));
+        //return FlxG.save.data.options;
+       // ]end
     }
     static function set_options(opt:TOptions) {
        // #if sys
         needToRefresh = true;
         SUtil.saveContent('assets/data/options.json', CoolUtil.stringifyJson(opt));
         //#else
-        FlxG.save.data.options = CoolUtil.stringifyJson(opt);
-        #end
+       // FlxG.save.data.options = CoolUtil.stringifyJson(opt);
+        //#end
         return opt;
     }
 }
