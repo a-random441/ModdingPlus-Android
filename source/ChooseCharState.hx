@@ -89,7 +89,7 @@ class ChooseCharState extends MusicBeatState
         add(grpAlphabet);
         trace("it's 11 pm"); //it's 12 pm
 
-	_pad = new FlxVirtualPad(UP_DOWN, A_B);
+	_pad = new FlxVirtualPad(FULL, A_B);
 	_pad.alpha = 0.75;
 	this.add(_pad);
 
