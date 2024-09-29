@@ -88,7 +88,7 @@ class StoryMenuState extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 	var _pad:FlxVirtualPad;
-	//var BACK:Bool;
+	//var BACK:Bool = true;
 	var oldMode:Bool = false;
 	var yellowBG:FlxSprite;
 	override function create()
@@ -456,20 +456,21 @@ class StoryMenuState extends MusicBeatState
 			lock.y = grpWeekText.members[lock.ID].y;
 		});
 
+		var UP_P = _pad.buttonUp.justPressed;
+	        var RIGHT_P = _pad.buttonRight.justPressed;
+	        var DOWN_P = _pad.buttonDown.justPressed;
+		var LEFT_P = _pad.buttonLeft.justPressed;
+		
+		var RIGHT = _pad.buttonRight.pressed;
+		var LEFT = _pad.buttonLeft.pressed;
+
+		var ACCEPT = _pad.buttonA.justPressed;
+		       // var BACK = _pad.buttonB.justPressed;
+
+                var BACK = _pad.buttonB.justPressed || FlxG.android.justReleased.BACK;
+
 		if (!movedBack)
 		{
-			var UP_P = _pad.buttonUp.justPressed;
-		        var RIGHT_P = _pad.buttonRight.justPressed;
-		        var DOWN_P = _pad.buttonDown.justPressed;
-		        var LEFT_P = _pad.buttonLeft.justPressed;
-		
-		        var RIGHT = _pad.buttonRight.pressed;
-		        var LEFT = _pad.buttonLeft.pressed;
-
-		        var ACCEPT = _pad.buttonA.justPressed;
-		        var BACK = _pad.buttonB.justPressed;
-
-			var BACK = _pad.buttonB.justPressed || FlxG.android.justReleased.BACK;
 			
 			if (!selectedWeek)
 			{
