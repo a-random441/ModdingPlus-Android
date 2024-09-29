@@ -64,9 +64,9 @@ class PauseSubState extends MusicBeatSubstate
 
 		super.update(elapsed);
 
-		var upP = controls.UP_MENU || UP_P;
-		var downP = controls.DOWN_MENU || DOWN_P;
-		var accepted = controls.ACCEPT || ACCEPT;
+		var upP = controls.UP_MENU || _pad.buttonUp.justPressed;
+		var downP = controls.DOWN_MENU || _pad.buttonDown.justPressed;
+		var accepted = controls.ACCEPT || _pad.buttonA.justPressed;
 
 		#if android
 		if (FlxG.android.justReleased.BACK == true){
