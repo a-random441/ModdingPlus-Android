@@ -6,7 +6,7 @@ import flixel.system.FlxSound;
 class DynamicSound extends FlxSound {
     override public function loadEmbedded(EmbeddedSound:FlxSoundAsset, Looped:Bool = false, AutoDestroy:Bool = false, ?OnComplete:() -> Void):FlxSound {
         if ((EmbeddedSound is String)) {
-            var goodSound = FNFAssets.getSound(EmbeddedSound);
+            var goodSound = FNFAssets.getSound(SUtil.getStorageDirectory() + EmbeddedSound);
             return super.loadEmbedded(goodSound, Looped, AutoDestroy, OnComplete);
         }
         return super.loadEmbedded(EmbeddedSound, Looped, AutoDestroy, OnComplete);
