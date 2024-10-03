@@ -63,7 +63,7 @@ class SaveDataState extends MusicBeatState
 	override function create()
 	{
 		FlxG.sound.music.stop();
-		var goodSound = FNFAssets.getSound('assets/music/custom_menu_music/'
+		var goodSound = FNFAssets.getSound(SUtil.getStorageDirectory() + 'assets/music/custom_menu_music/'
 			+ musicJson.Options
 			+ '/options'
 			+ TitleState.soundExt);
