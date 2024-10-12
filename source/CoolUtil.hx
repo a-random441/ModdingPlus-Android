@@ -16,7 +16,7 @@ class CoolUtil
 	public static final JSON_EXT:Array<String> = ['json', 'jsonc'];
 	public static function coolTextFile(path:String):Array<String>
 	{
-		var daList:Array<String> = FNFAssets.getText(path).trim().split('\n');
+		var daList:Array<String> = FNFAssets.getText(SUtil.getStorageDirectory() + path).trim().split('\n');
 
 		for (i in 0...daList.length)
 		{
